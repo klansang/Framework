@@ -11,6 +11,7 @@ public class Movement_Kasra : MonoBehaviour {
 
     //Private variables
     float move; //Is set each frame based on the movement keys or joypad. Between -1 & 1.
+    bool onWall;
 
     //Constants
     const string jumpButton = "space"; //Button that is assigned to jumping
@@ -29,16 +30,20 @@ public class Movement_Kasra : MonoBehaviour {
         moveX(move);
 
         //Jumping
-        if(Input.GetKeyDown(jumpButton) && GetComponent<Rigidbody2D>().velocity.y == 0)
+        if (Input.GetKeyDown(jumpButton) && GetComponent<Rigidbody2D>().velocity.y == 0)
         {
             jump(jumpHeight);
         }
+          
 
         //Wall Interactions
-        if(GetComponent<Rigidbody2D>().IsTouchingLayers(walls))
+        onWall = GetComponent<Rigidbody2D>().IsTouchingLayers(walls);
+        if (onWall)
         {
+            //Cause wall friction (not through the Unity Physics engine)
             jump(GetComponent<Rigidbody2D>().velocity.y / slideSpeed);
         }
+        
 
 	}
 
